@@ -2,6 +2,8 @@
 #define X 1
 #define O -1
 
+#define IS_AI_FIRST true
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -122,7 +124,16 @@ void output_board()
     if (i != 2)
       printf("\n-----------\n");
     else
-      printf("\n\n");
+    {
+      int k = score(IS_AI_FIRST ? O : X, false);
+
+      if (k == 1)
+        printf("\n\nYou are currently winning.\n");
+      if (k == -1)
+        printf("\n\nYou are currently losing.\n");
+      if (k == 0)
+        printf("\n\nThe outcome is set to be a draw.\n");
+    }
   }
 }
 
@@ -180,10 +191,10 @@ int main()
 {
   while (1)
   {
-    if (!next_move(X, false))
+    if (!next_move(X, IS_AI_FIRST))
       break;
 
-    if (!next_move(O, true))
+    if (!next_move(O, !IS_AI_FIRST))
       break;
   }
 
